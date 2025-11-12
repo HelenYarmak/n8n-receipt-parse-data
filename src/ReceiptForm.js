@@ -4,48 +4,48 @@ const ReceiptForm = () => {
 
     const fileInputRef = useRef(null);
     const [file, setFile] = useState(null);
-    const [notification, setNotification] = useState("");
+    const [notification, setNotification] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append('file', file);
 
         if (!file) {
-            setNotification("⚠️ Please upload a receipt first.");
+            setNotification('⚠️ Please upload a receipt first.');
             return
         } else {
-            setNotification("✅ Receipt submitted successfully!");
+            setNotification('✅ Receipt submitted successfully!');
         }
 
-        await fetch("https://n8n.us2h.com/webhook/check-upload", {
-            method: "POST",
+        await fetch('https://n8n.us2h.com/webhook/check-upload', {
+            method: 'POST',
             body: formData,
         });
         
         fileInputRef.current.value = null;
         setFile(null);
-        setNotification("");
+        setNotification('');
     };
     return (
-        <div className="upload-page">
+        <div className='upload-page'>
 
-            {notification && <div className="notification">{notification}</div>}
+            {notification && <div className='notification'>{notification}</div>}
 
-            <form onSubmit={handleSubmit} className="upload-form">
-                <label className="dropzone">
-                    <div className="dropzone-content">
-                        <span className="dropzone-icon">📷</span>
-                        <p>{file ? file.name : "Upload receipt photo"}</p>
+            <form onSubmit={handleSubmit} className='upload-form'>
+                <label className='dropzone'>
+                    <div className='dropzone-content'>
+                        <span className='dropzone-icon'>📷</span>
+                        <p>{file ? file.name : 'Upload receipt photo'}</p>
                     </div>
                     <input
-                        type="file"
-                        accept="image/*"
+                        type='file'
+                        accept='image/*'
                         onChange={(e) => setFile(e.target.files[0])}
                         ref={fileInputRef}
                     />
                 </label>
-                <button type="submit" className="submit-btn">
+                <button type='submit' className='submit-btn'>
                     Send
                 </button>
             </form>
