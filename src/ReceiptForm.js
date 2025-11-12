@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 const ReceiptForm = () => {
 
+    const fileInputRef = useRef(null);
     const [file, setFile] = useState(null);
     const [notification, setNotification] = useState("");
 
@@ -14,16 +15,15 @@ const ReceiptForm = () => {
             setNotification("⚠️ Please upload a receipt first.");
             return
         } else {
-            console.log('clicked');
-            console.log(notification);
             setNotification("✅ Receipt submitted successfully!");
         }
 
-        await fetch("https://n8n.us2h.com/webhook-test/check-upload", {
+        await fetch("https://n8n.us2h.com/webhook/check-upload", {
             method: "POST",
             body: formData,
         });
         
+        fileInputRef.current.value = null;
         setFile(null);
         setNotification("");
     };
@@ -42,6 +42,7 @@ const ReceiptForm = () => {
                         type="file"
                         accept="image/*"
                         onChange={(e) => setFile(e.target.files[0])}
+                        ref={fileInputRef}
                     />
                 </label>
                 <button type="submit" className="submit-btn">
